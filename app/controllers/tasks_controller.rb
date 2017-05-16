@@ -1,32 +1,35 @@
 class TasksController < ApplicationController
-  def show
-    @task = Tasks.find(params[:id])
-  end
   def index
-    @task = Tasks.all
+    @tasks = Task.all
   end
-  def new
-    @task = Tasks.new
+  def show
+    @task = Task.find(params[:id])
   end
   def create
-    @task = Tasks.new(params[:task])
+    @task = Task.new(task_params)
     @task.save
+  redirect_to task_path(@task)
+  end
+  def new
+    @task = Task.new
   end
   def edit
-    @task = Tasks.find(params[:id])
+    @task = Task.find(params[:id])
   end
   def update
-    @task = Tasks.find(params[:id])
-    @task.udpate(params[:task])
+    @task = Task.find(params[:id])
+    @task.update(task_params)
+    redirect_to task_path(@task)
   end
-  def delete
-    @task = Tasks.find(params[:id])
+  def destroy
+    @task = Task.find(params[:id])
     @task.destroy
     redirect_to tasks_path
   end
-
+  private
   def task_params
-    params.require(:task).permit(:name, :address)
+    # *Strong params*: You need to *whitelist* what can be updated by the user
+    # Never trust user data!
+    params.require(:task).permit(:name, :details)
   end
 end
-

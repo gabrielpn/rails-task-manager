@@ -1,13 +1,9 @@
-<form action="/tasks" method="post">
-  <label for="name">Name: </label>
-  <input type="text" name="task[name]" id="name">
+<%= link_to "Créer une tâche", new_task_path %>
+<% @tasks.each do |task| %>
+  <h2><%= task.name %></h2>
+  <p><%= task.details %></p>
+  <%= link_to "Accéder de la tache", task_path(task) %>
+  <%= link_to "Updater la tache", edit_task_path(task) %>
+  <%= link_to "Détruire la tache", task_path(task), method: :delete %>
+<% end %>
 
-  <label for="address">Address: </label>
-  <input type="text" name="task[address]" id="address">
-
-  <input type="submit">
-</form>
-
-<%= link_to "Delete", task_path(task),
-      method: :delete,
-      data: { confirm: "Are you sure?" } %>
